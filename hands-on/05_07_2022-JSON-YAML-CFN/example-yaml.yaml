@@ -44,7 +44,7 @@ instructors:
    age: 40
 
 ---
-
+instructors:
 -  instructor1: 
       name: guile
       job: solutions-arct
