@@ -1,0 +1,38 @@
+YAML & JSON Essentials 
+Introduction to Cloudformation
+
+05/07/2022
+Guile
+
+VS Code Extensions for YAML and Cloudformation:
+
+- CloudFormation Snippets
+  dsteenman.cloudformation-yaml-snippets
+  Danny Steenman
+
+- CloudFormation Linter
+  kddejong.vscode-cfn-lint
+  kddejong
+
+- YAML :heart: JSON
+  hilleer.yaml-plus-json
+  Daniel Hillmann
+
+- YAML
+  redhat.vscode-yaml
+  Red Hat
+  
+  
+ 
+ Online YAML-to-JSON/JSON-to-YAML Converters:
+ 
+  - https://codebeautify.org/json-to-yaml
+  - https://codebeautify.org/yaml-to-json-xml-csv
+  - https://jsonformatter.org/json-to-yaml
+  - https://jsonformatter.org/yaml-to-json
+  
+  References:
+  - https://yaml.org/
+  - https://json.org/
+  - https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html
+  - https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-reference.html

@@ -1,0 +1,17 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: |
+  This template launches an ec2 instance which enables SSH.
+  
+Resources:
+  CFNInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-0022f774911c1d690
+      InstanceType: t2.micro
+      KeyName: guile  # Please use your key pair name without .pem
+      SecurityGroups:
+        - cfn-sec-group
+      Tags:
+        - Key: Name
+          Value: CFN-Instance
