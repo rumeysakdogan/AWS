@@ -55,9 +55,13 @@ sudo amazon-linux-extras install nginx1
 3. Start the Nginx Web Server.
 
 sudo systemctl start nginx
-
+sudo systemctl status nginx
+sudo systemctl stop nginx
+sudo systemctl status nginx
+sudo systemctl start nginxsudo systemctl status nginx
+ 
 4. Check from browser with public IP/DNS
-
+http://<add dns of your webserver>
 
 5. Go to /usr/share/nginx/html folder.
 
