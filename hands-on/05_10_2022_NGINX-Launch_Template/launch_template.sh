@@ -211,7 +211,7 @@ Resource type   : Instance
 39. Go to `Advance Details` on the bottom and add the script given below into the `user data` field.
 
 
-#! /bin/bash
+#! /bin/bash -xe
 
 yum update -y
 amazon-linux-extras install nginx1
