@@ -120,7 +120,7 @@ Keep it as it is
 yum update -y
 #install apache server
 yum install -y httpd
-# get private ip address of ec2 instance using instance metadata
+# get private ip address of ec2 instance using instance metadata. This token will be expired after 6 hours.
 TOKEN=`curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600"` \
 && PRIVATE_IP=`curl -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/local-ipv4`
 # get public ip address of ec2 instance using instance metadata
@@ -136,10 +136,11 @@ echo "<html>
     <title> Congratulations! You have created an instance from Launch Template</title>
 </head>
 <body>
-    <h1>This web server is launched from launch template by YOUR_NAME</h1>
+    <h1>This web server is launched from launch template by Rumeysa for chocolate e-commercial web-site</h1>
     <p>This instance is created at <b>$DATE_TIME</b></p>
     <p>Private IP address of this instance is <b>$PRIVATE_IP</b></p>
     <p>Public IP address of this instance is <b>$PUBLIC_IP</b></p>
+    <p><img src="https://2rdnmg1qbg403gumla1v9i2h-wpengine.netdna-ssl.com/wp-content/uploads/sites/3/2015/03/chocolateWhiteDark-454384771-770x533-1-650x428.jpg" alt="chocolatte">
 </body>
 </html>" > /var/www/html/index.html
 # start apache server
