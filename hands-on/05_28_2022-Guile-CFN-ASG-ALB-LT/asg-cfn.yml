@@ -6,9 +6,25 @@ Parameters:
   pVpcId:
     Description: VPC where EC2 instances will be launched
     Type: AWS::EC2::VPC::Id
+
   pSubnets:
     Description: Subnets for ALB
     Type: List<AWS::EC2::Subnet::Id>
+
+  pInstanceType:
+    Description: Instance type for launch template 
+    Type: String
+    Default: t2.micro
+    AllowedValues:
+      - t2.micro
+      - t2.nano
+      - t3.micro
+      - t3.nano
+
+  pKeyPair:
+    Description: Key pair for instance
+    Type: AWS::EC2::KeyPair::KeyName
+
 #Mappings:
   
 Resources:
@@ -21,12 +37,46 @@ Resources:
       Subnets: !Ref pSubnets
       Type: application
 
+  rLaunchTemplate:
+    Type: AWS::EC2::LaunchTemplate
+    Properties: 
+      LaunchTemplateData: 
+        ImageId: ami-0022f774911c1d690
+        InstanceType: !Ref pInstanceType
+        KeyName: !Ref pKeyPair 
+        SecurityGroupIds: 
+          - !GetAtt rMySG.GroupId
+        UserData: !Base64 |
+          #! /bin/bash
+          yum update -y
+          yum install -y httpd
+          TOKEN=`curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600"` \
+          && PRIVATE_IP=`curl -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/local-ipv4`
+          TOKEN=`curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600"` \
+          && PUBLIC_IP=`curl -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/public-ipv4`
+          DATE_TIME=`date`
+          chmod -R 777 /var/www/html
+          echo "<html>
+          <head>
+              <title> Congratulations! You have created an instance from Launch Template</title>
+          </head>
+          <body>
+              <h1>This web server is launched from launch template by RUMEYSA</h1>
+              <p>This instance is created at <b>$DATE_TIME</b></p>
+              <p>Private IP address of this instance is <b>$PRIVATE_IP</b></p>
+              <p>Public IP address of this instance is <b>$PUBLIC_IP</b></p>
+          </body>
+          </html>" > /var/www/html/index.html
+          systemctl start httpd
+          systemctl enable httpd
+
+
   rListener: 
     Type: AWS::ElasticLoadBalancingV2::Listener
     Properties: 
       DefaultActions: 
-        - TargetGroupArn: String
-          Type: String
+        - TargetGroupArn: !Ref rTargetGroup
+          Type: forward
       LoadBalancerArn: !Ref rMyALB
       Port: 80
       Protocol: HTTP
@@ -45,7 +95,7 @@ Resources:
   rMySG:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: Enable SSh and HTTP # Required
+      GroupDescription: Enable SSH and HTTP # Required
       GroupName: Enable SSh and HTTP
       SecurityGroupIngress:
       - IpProtocol: tcp
@@ -57,5 +107,29 @@ Resources:
         ToPort: 80
         CidrIp: 0.0.0.0/0
       VpcId: !Ref pVpcId
+  rASG:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      HealthCheckGracePeriod: 90
+      HealthCheckType: ELB
+      LaunchTemplate:
+        LaunchTemplateId: !Ref rLaunchTemplate
+        Version: 1
+      AvailabilityZones: !GetAZs 
+      TargetGroupARNs:
+        - !Ref rTargetGroup
+      MinSize: "1"
+      MaxSize: "3"
+      DesiredCapacity: "2"
+
+  rASGPolicy:
+    Type: AWS::AutoScaling::ScalingPolicy
+    Properties: 
+      AutoScalingGroupName: !Ref rASG
+      PolicyType: TargetTrackingScaling
+      TargetTrackingConfiguration: 
+        PredefinedMetricSpecification: 
+          PredefinedMetricType: ASGAverageCPUUtilization
+        TargetValue: 60.0
 
 #Outputs:
