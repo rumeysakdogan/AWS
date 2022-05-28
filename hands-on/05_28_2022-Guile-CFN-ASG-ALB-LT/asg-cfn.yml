@@ -1,0 +1,61 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: My first Cloudformation with Auto Scaling.
+  
+Parameters:
+  pVpcId:
+    Description: VPC where EC2 instances will be launched
+    Type: AWS::EC2::VPC::Id
+  pSubnets:
+    Description: Subnets for ALB
+    Type: List<AWS::EC2::Subnet::Id>
+#Mappings:
+  
+Resources:
+
+  rMyALB: 
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties: 
+      SecurityGroups: 
+        - !GetAtt rMySG.GroupId
+      Subnets: !Ref pSubnets
+      Type: application
+
+  rListener: 
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties: 
+      DefaultActions: 
+        - TargetGroupArn: String
+          Type: String
+      LoadBalancerArn: !Ref rMyALB
+      Port: 80
+      Protocol: HTTP
+
+  rTargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties: 
+      Port: 80
+      Protocol: HTTP
+      HealthCheckIntervalSeconds: 10
+      HealthCheckTimeoutSeconds: 5
+      HealthyThresholdCount: 3
+      UnhealthyThresholdCount: 2
+      VpcId: !Ref pVpcId
+
+  rMySG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable SSh and HTTP # Required
+      GroupName: Enable SSh and HTTP
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: 80
+        ToPort: 80
+        CidrIp: 0.0.0.0/0
+      VpcId: !Ref pVpcId
+
+#Outputs:
