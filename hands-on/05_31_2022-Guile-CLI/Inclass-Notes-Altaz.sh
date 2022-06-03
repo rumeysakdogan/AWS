@@ -142,6 +142,7 @@ aws ec2 terminate-instances --instance-ids INSTANCE_ID_HERE # put your instance 
 
 aws ssm get-parameters --names /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2 --region us-east-1
 
+#below line returns image-id for latest ami
 aws ssm get-parameters --names /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2 --query 'Parameters[0].[Value]' --output text
 
 aws ec2 run-instances \

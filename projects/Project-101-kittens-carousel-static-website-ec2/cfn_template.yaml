@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Static Website Kitten Carousel Project
+  
+Parameters:
+  pKeyPair:
+    Description: Keypair of EC2 instance
+    Type: AWS::EC2::KeyPair::KeyName
+  
+Resources:
+  rSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enables SSH and HTTP # Required
+      SecurityGroupIngress:
+        - IpProtocol: tcp # Required 
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp # Required 
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+  rEC2:
+    LogicalID:
+      Type: AWS::EC2::Instance
+      Properties:
+        ImageId: "String"
+        InstanceType: "String"
+        KeyName: !Ref pKeyPair
+        SecurityGroupIds:
+          SecurityGroupIds
+        SecurityGroups:
+          SecurityGroups
+        UserData: 
+  
+Outputs:
