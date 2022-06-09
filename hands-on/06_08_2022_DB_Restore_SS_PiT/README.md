@@ -290,7 +290,7 @@ EXIT;
 
 - For `point in time recovery` PART (PART-4), please note down the current time. (Exp: August 12, 2020, 22:45:34, UTC +3) and let the students know:
 
-     -enter the time: 22:26:45
+     -enter the time: 8:22 pm
 
 ## Part 2 - Taking a Snapshot from RDS DB Instance
 
