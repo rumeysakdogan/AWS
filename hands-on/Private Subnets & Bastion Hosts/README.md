@@ -136,7 +136,8 @@ reference: https://digitalcloud.training/ssh-into-ec2-in-private-subnet/
 And what we need to do is we're going to run this command ssh-add, and that's going to add our private key file to SSH so that it can then be used in subsequent commands.
 
 command: ssh-add -K "FirstKey.pem" 
-
+once the above command is successful you will see a message like below in your terminal
+Identity added: ./FirstKey.pem (./FirstKey.pem)
 And that means we're able to then connect to our public instance and we'll still have the key file stored in memory that we can then use to connect to our private instance.
 
 And now, I can connect to my EC2 instance.
