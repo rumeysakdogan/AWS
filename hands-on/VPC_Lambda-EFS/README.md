@@ -1,6 +1,6 @@
 # Demo - VPC Lambda & EFS Demo
 
-![Demo Source](https://github.com/acantril/learn-cantrill-io-labs/blob/master/00-aws-simple-demos/aws-lambda-vpc-efs/02_LABINSTRUCTIONS/VPC%20Lambda%20EFS%20Demo.md)
+![Demo Source](https://github.com/rumeysakdogan/AWS/tree/master/hands-on/VPC_Lambda-EFS)
 
 Welcome to this Demo, where you will get experience of working with VPC Based Lambda using an EFS File system.  
 There are a number of key steps in the demo:-  
