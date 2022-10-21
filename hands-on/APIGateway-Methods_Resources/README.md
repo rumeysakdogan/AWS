@@ -87,6 +87,7 @@ Since there is no stage defined before, click on `New Stage`, name as `dev` clic
 ![](images/stage-name.png)
 
 Once we deploy our API, we will get an `Invoke URL`, click on link, open in new tab and see the result. This is the response returned by Lambda code we created.
+
 ![](images/api-response.png) 
 
 We can see the logs of for lambda function under CloudWatch `Log groups` --> `aws/lambda/api-root-resource`
