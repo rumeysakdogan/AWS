@@ -102,5 +102,5 @@ Apply the same settings same as before and `Save`. Go to `Actions` -> `Deploy` i
 Once you invoke the dev url by adding `/listcats` , you will be able to see the new results.
 ![](images/response-listcats.png)
 
-Last step to cean up, go to `APIs` -> select `mycatapi` -> `Delete`.
+Last step to clean up, go to `APIs` -> select `mycatapi` -> `Delete`.
 We're all set!!
